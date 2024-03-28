@@ -1,4 +1,4 @@
-package io.zhiller.fo.utils;
+package io.zhiller.fo.utils.storage;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.StringRedisTemplate;

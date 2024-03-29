@@ -95,7 +95,6 @@ public class MinioUploader extends IUploader {
           InputStream inputStream = null;
           try {
             inputStream = minioClient.getObject(GetObjectArgs.builder().bucket(minioProps.getBucketName()).object(uploadFileResult.getFileUrl()).build());
-
             BufferedImage src = ImageIO.read(inputStream);
             uploadFileResult.setBufferedImage(src);
           } catch (Exception e) {
@@ -124,7 +123,6 @@ public class MinioUploader extends IUploader {
       if (!isExist) {
         minioClient.makeBucket(MakeBucketArgs.builder().bucket(minioProps.getBucketName()).build());
       }
-
       inputStream = new FileInputStream(file);
       minioClient.putObject(
         PutObjectArgs.builder().bucket(minioProps.getBucketName()).object(fileUrl).stream(

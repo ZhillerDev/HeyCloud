@@ -31,7 +31,7 @@ public class MinioUploader extends IUploader {
 
   private MinioProps minioProps;
 
-  @Autowired
+  @Resource
   private MinioClient minioClient;
 
   @Resource

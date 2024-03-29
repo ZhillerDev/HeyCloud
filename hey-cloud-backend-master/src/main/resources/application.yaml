@@ -1,5 +1,0 @@
-server:
-  port: 20001
-spring:
-  application:
-    name: hey-cloud-backend

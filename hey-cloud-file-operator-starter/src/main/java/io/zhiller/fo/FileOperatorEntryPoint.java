@@ -39,11 +39,6 @@ public class FileOperatorEntryPoint {
   }
 
   @Bean
-  public MinioUploader minioUploader() {
-    return new MinioUploader(properties.getMinioProps());
-  }
-
-  @Bean
   public RedisUtils redisUtils() {
     return new RedisUtils();
   }

@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ControllerAdvice
 public class GlobalExceptionHandler {
   /**-------- 通用异常处理方法 --------**/
-  @ExceptionHandler(Exception.class)
-  @ResponseBody
-  @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-  public RestResult error(Exception e) {
-    e.printStackTrace();
-    log.error("全局异常捕获：" + e);
-
-    return RestResult.fail();    // 通用异常结果
-  }
+//  @ExceptionHandler(Exception.class)
+//  @ResponseBody
+//  @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+//  public RestResult error(Exception e) {
+//    e.printStackTrace();
+//    log.error("全局异常捕获：" + e);
+//
+//    return RestResult.fail();    // 通用异常结果
+//  }
 }

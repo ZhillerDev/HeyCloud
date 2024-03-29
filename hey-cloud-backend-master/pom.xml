@@ -75,6 +75,29 @@
             <version>3.5.3.2</version>
         </dependency>
 
+        <!--自己写的中间件-->
+        <dependency>
+            <groupId>io.zhiller</groupId>
+            <artifactId>hey-cloud-file-operator-starter</artifactId>
+            <version>1.0.1</version>
+        </dependency>
+
+        <!--单测-->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+
 
     </dependencies>
     <dependencyManagement>

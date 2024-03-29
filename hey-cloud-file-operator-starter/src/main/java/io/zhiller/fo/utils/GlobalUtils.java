@@ -1,5 +1,16 @@
 package io.zhiller.fo.utils;
 
+import io.zhiller.fo.exception.FoException;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.util.ResourceUtils;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class GlobalUtils {
   public static String LOCAL_STORAGE_PATH;
   public static String ROOT_PATH;
@@ -46,6 +57,124 @@ public class GlobalUtils {
     return false;
   }
 
+  public static String pathSplitFormat(String filePath) {
+    return filePath.replace("///", "/")
+      .replace("//", "/")
+      .replace("\\\\\\", "/")
+      .replace("\\\\", "/");
+  }
 
+  public static File getLocalSaveFile(String fileUrl) {
+    String localSavePath = GlobalUtils.getStaticPath() + fileUrl;
+    return new File(localSavePath);
+  }
+
+  public static File getCacheFile(String fileUrl) {
+    String cachePath = GlobalUtils.getStaticPath() + "cache" + File.separator + fileUrl;
+
+    return new File(cachePath);
+  }
+
+  public static File getTempFile(String fileUrl) {
+    String tempPath = GlobalUtils.getStaticPath() + "temp" + File.separator + fileUrl;
+    File tempFile = new File(tempPath);
+    File parentFile = tempFile.getParentFile();
+    if (!parentFile.exists()) {
+      parentFile.mkdirs();
+    }
+
+    return tempFile;
+  }
+
+  public static File getProcessFile(String fileUrl) {
+    String processPath = GlobalUtils.getStaticPath() + "temp" + File.separator + "process" + File.separator + fileUrl;
+    File processFile = new File(processPath);
+    File parentFile = processFile.getParentFile();
+    if (!parentFile.exists()) {
+      parentFile.mkdirs();
+    }
+    return processFile;
+  }
+
+  /**
+   * 获取项目所在的根目录路径 resources路径
+   *
+   * @return 结果
+   */
+  public static String getProjectRootPath() {
+    String absolutePath;
+    try {
+      String url = ResourceUtils.getURL("classpath:").getPath();
+      absolutePath = urlDecode(new File(url).getAbsolutePath()) + File.separator;
+    } catch (FileNotFoundException e) {
+      throw new FoException(e);
+    }
+
+    return absolutePath;
+  }
+
+  /**
+   * 路径解码
+   *
+   * @param url url
+   * @return 结果
+   */
+  public static String urlDecode(String url) {
+    String decodeUrl;
+    try {
+      decodeUrl = URLDecoder.decode(url, "utf-8");
+    } catch (UnsupportedEncodingException e) {
+      throw new FoException("不支持的编码格式", e);
+    }
+    return decodeUrl;
+  }
+
+  /**
+   * 得到static路径
+   *
+   * @return 结果
+   */
+  public static String getStaticPath() {
+    String localStoragePath = LOCAL_STORAGE_PATH;
+    if (StringUtils.isNotEmpty(localStoragePath)) {
+
+      return new File(localStoragePath).getPath() + File.separator;
+    } else {
+      String projectRootAbsolutePath = getProjectRootPath();
+
+      int index = projectRootAbsolutePath.indexOf("file:");
+      if (index != -1) {
+        projectRootAbsolutePath = projectRootAbsolutePath.substring(0, index);
+      }
+
+      return new File(projectRootAbsolutePath + "static").getPath() + File.separator;
+    }
+
+
+  }
+
+  /**
+   * 获取上传文件路径
+   * 返回路径格式 “upload/yyyyMMdd/”
+   *
+   * @param identifier 文件名（一般传入md5或uuid,防止文件名重复）
+   * @param extendName 文件扩展名
+   * @return 返回上传文件路径
+   */
+  public static String getUploadFileUrl(String identifier, String extendName) {
+
+    SimpleDateFormat formater = new SimpleDateFormat("yyyyMMdd");
+    String path = ROOT_PATH + "/" + formater.format(new Date()) + "/";
+
+    File dir = new File(GlobalUtils.getStaticPath() + path);
+
+    if (!dir.exists()) {
+      dir.mkdirs();
+    }
+
+    path = path + identifier + "." + extendName;
+
+    return path;
+  }
 
 }

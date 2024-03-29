@@ -87,12 +87,12 @@ public abstract class IUploader {
     return uploadFileResultList;
   }
 
-  protected UploadFileResult doUploadFlow(UploadMultipartFile qiwenMultipartFile, UploadFile uploadFile) {
+  protected UploadFileResult doUploadFlow(UploadMultipartFile multipartFile, UploadFile uploadFile) {
 
     UploadFileResult uploadFileResult;
     try {
-      rectifier(qiwenMultipartFile, uploadFile);
-      uploadFileResult = organizationalResults(qiwenMultipartFile, uploadFile);
+      rectifier(multipartFile, uploadFile);
+      uploadFileResult = organizationalResults(multipartFile, uploadFile);
     } catch (Exception e) {
       throw new UploadException(e);
     }
@@ -102,17 +102,23 @@ public abstract class IUploader {
 
   public abstract void cancelUpload(UploadFile uploadFile);
 
-  protected abstract void doUploadFileChunk(UploadMultipartFile qiwenMultipartFile, UploadFile uploadFile) throws IOException;
+  protected abstract void doUploadFileChunk(UploadMultipartFile multipartFile, UploadFile uploadFile) throws IOException;
 
-  protected abstract UploadFileResult organizationalResults(UploadMultipartFile qiwenMultipartFile, UploadFile uploadFile);
+  protected abstract UploadFileResult organizationalResults(UploadMultipartFile multipartFile, UploadFile uploadFile);
 
-  private void rectifier(UploadMultipartFile qiwenMultipartFile, UploadFile uploadFile) {
-    String key = "QiwenUploader:Identifier:" + uploadFile.getIdentifier() + ":lock";
-    String current_upload_chunk_number = "QiwenUploader:Identifier:" + uploadFile.getIdentifier() + ":current_upload_chunk_number";
+
+  /**
+   * 处理校正分片上传逻辑
+   *
+   * @param multipartFile 被分片上传的文件
+   * @param uploadFile    分片上传文件的参数
+   */
+  private void rectifier(UploadMultipartFile multipartFile, UploadFile uploadFile) {
+    String key = "CloudUploader:Identifier:" + uploadFile.getIdentifier() + ":lock";
+    String current_upload_chunk_number = "CloudUploader:Identifier:" + uploadFile.getIdentifier() + ":current_upload_chunk_number";
 
     lockUtils.lock(key);
     try {
-
       if (redisUtils.getObject(current_upload_chunk_number) == null) {
         redisUtils.set(current_upload_chunk_number, "1", 1000 * 60 * 60);
       }
@@ -138,15 +144,15 @@ public abstract class IUploader {
         }
       }
 
-      log.info("文件名{},正在上传第{}块, 共{}块>>>>>>>>>>", qiwenMultipartFile.getMultipartFile().getOriginalFilename(), uploadFile.getChunkNumber(), uploadFile.getTotalChunks());
+      log.info("文件名{},正在上传第{}块, 共{}块>>>>>>>>>>", multipartFile.getMultipartFile().getOriginalFilename(), uploadFile.getChunkNumber(), uploadFile.getTotalChunks());
       if (uploadFile.getChunkNumber() == currentUploadChunkNumber) {
-        doUploadFileChunk(qiwenMultipartFile, uploadFile);
-        log.info("文件名{},第{}块上传成功", qiwenMultipartFile.getMultipartFile().getOriginalFilename(), uploadFile.getChunkNumber());
-        this.redisUtils.getIncr("QiwenUploader:Identifier:" + uploadFile.getIdentifier() + ":current_upload_chunk_number");
+        doUploadFileChunk(multipartFile, uploadFile);
+        log.info("文件名{},第{}块上传成功", multipartFile.getMultipartFile().getOriginalFilename(), uploadFile.getChunkNumber());
+        this.redisUtils.getIncr("CloudUploader:Identifier:" + uploadFile.getIdentifier() + ":current_upload_chunk_number");
       }
     } catch (Exception e) {
       log.error("第{}块上传失败，自动重试", uploadFile.getChunkNumber());
-      redisUtils.set("QiwenUploader:Identifier:" + uploadFile.getIdentifier() + ":current_upload_chunk_number", String.valueOf(uploadFile.getChunkNumber()), 1000 * 60 * 60);
+      redisUtils.set("CloudUploader:Identifier:" + uploadFile.getIdentifier() + ":current_upload_chunk_number", String.valueOf(uploadFile.getChunkNumber()), 1000 * 60 * 60);
       throw new UploadException("更新远程文件出错", e);
     } finally {
       lockUtils.unlock(key);

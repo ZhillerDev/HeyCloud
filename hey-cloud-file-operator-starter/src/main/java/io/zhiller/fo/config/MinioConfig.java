@@ -1,11 +1,21 @@
 package io.zhiller.fo.config;
 
-import lombok.Data;
+import io.minio.MinioClient;
+import io.zhiller.fo.domain.storage.MinioProps;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
-@Data
+import javax.annotation.Resource;
+
+@Configuration
 public class MinioConfig {
-  private String endpoint;
-  private String accessKey;
-  private String secretKey;
-  private String bucketName;
+
+  @Resource
+  private MinioProps minioProps;
+
+  @Bean
+  public MinioClient client() {
+    return MinioClient.builder().endpoint(minioProps.getEndpoint())
+      .credentials(minioProps.getAccessKey(), minioProps.getSecretKey()).build();
+  }
 }

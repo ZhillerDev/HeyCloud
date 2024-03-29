@@ -1,5 +1,8 @@
 package io.zhiller.fo.domain.constants;
 
+import lombok.Getter;
+
+@Getter
 public enum UploadStatusEnum {
   FAIL(0, "上传失败"),
   SUCCESS(1, "上传成功"),
@@ -13,11 +16,4 @@ public enum UploadStatusEnum {
     this.message = message;
   }
 
-  public int getCode() {
-    return code;
-  }
-
-  public String getMessage() {
-    return message;
-  }
 }

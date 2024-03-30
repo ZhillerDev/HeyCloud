@@ -1,30 +1,27 @@
 <template>
-  <div class="layout-logo-container" :class="{ collapse: props.collapse }">
+  <div class="layout-logo-container" :class="{ collapse: isCollapse }" @click="isCollapse=!isCollapse">
     <transition name="layout-logo-fade">
-      <router-link v-if="props.collapse" key="collapse" to="/">
+      <router-link v-if="isCollapse" key="collapse" to="/">
         <img src="../../../public/logo/hey-cloud.svg" class="layout-logo" alt="none"/>
       </router-link>
       <router-link v-else key="expand" to="/">
-        <img :src="activeThemeName==='dark' ? logoText1 : logoText2" class="layout-logo-text" alt="none"/>
+        <div class="font-bold">
+          HeyCloud
+        </div>
       </router-link>
     </transition>
   </div>
 </template>
 
 <script setup>
-import {storeToRefs} from 'pinia';
+import {ref} from "vue";
 import {useSettingStore} from "@/store/modules/setting-store.js";
+import {storeToRefs} from "pinia";
 
-// 定义默认属性对象
-const defaultProps = {
-  collapse: true
-};
+const settingStore = useSettingStore()
 
-// 使用withDefaults函数来设置默认属性，这个函数需要在Vue 3的Composition API中定义
-const props = withDefaults(defineProps(defaultProps));
+const {isCollapse} = storeToRefs(settingStore)
 
-// 使用Pinia的状态管理库来获取settingsStore实例
-const settingsStore = useSettingStore()
 </script>
 
 <style lang="scss" scoped>

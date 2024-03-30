@@ -1,0 +1,5 @@
+/* 更改进度条颜色 */
+#nprogress .bar {
+  background: var(--plugin-nprogress-bar) !important;
+  height: 3px !important;
+}

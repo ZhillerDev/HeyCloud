@@ -1,26 +1,27 @@
 <template>
-  <div style="width: 350px">
-    <t-form ref="form" :data="formData" :colon="true" :label-width="0" @reset="onReset" @submit="onSubmit">
-      <t-form-item name="account">
-        <t-input v-model="formData.account" clearable placeholder="请输入账户名">
-          <template #prefix-icon>
-            <desktop-icon/>
-          </template>
-        </t-input>
-      </t-form-item>
+  <div class="login-container">
+    <div class="login-card">
+      <div class="title">
+        <h2>HeyCloud 登录</h2>
+      </div>
+      <div class="content">
+        <t-form ref="form" :data="formData" :rules="loginFormRules" @submit="onSubmit" label-align="left">
+          <t-form-item label="用户名" name="username">
+            <t-input v-model="formData.username"></t-input>
+          </t-form-item>
+          <t-form-item label="密码" name="password">
+            <t-input v-model="formData.password" type="password"></t-input>
+          </t-form-item>
 
-      <t-form-item name="password">
-        <t-input v-model="formData.password" type="password" clearable placeholder="请输入密码">
-          <template #prefix-icon>
-            <lock-on-icon/>
-          </template>
-        </t-input>
-      </t-form-item>
-
-      <t-form-item>
-        <t-button theme="primary" type="submit" block>登录</t-button>
-      </t-form-item>
-    </t-form>
+          <t-space class="btns">
+            <t-button :loading="loading" theme="primary" variant="base" type="submit" style="width: 260px;">登录
+            </t-button>
+            <t-button theme="default" variant="base" @click="handleClear" type="reset" style="width: 70px;">重填
+            </t-button>
+          </t-space>
+        </t-form>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -40,7 +41,6 @@ const codeUrl = ref("")
 const formData = reactive({
   username: "admin",
   password: "12345678",
-  code: ""
 })
 
 /** 登录表单校验规则 */
@@ -70,6 +70,63 @@ const handleClear = () => {
 };
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  min-height: 100%;
 
+  .theme-switch {
+    position: fixed;
+    top: 5%;
+    right: 5%;
+    cursor: pointer;
+  }
+
+  .login-card {
+    width: 400px;
+    border-radius: 6px;
+    background-color: #fff;
+    overflow: hidden;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .title {
+      //background-color: #629dff;
+      width: 100%;
+      padding: 0 0 0 30px;
+      display: flex;
+      justify-content: start;
+      align-items: center;
+      margin-top: 32px;
+
+      img {
+        height: 50px;
+        width: 130px;
+      }
+    }
+
+    .content {
+      border-radius: 6px;
+      width: 100%;
+      //background-color: white;
+      padding: 20px 30px 50px 30px;
+
+      :deep(.el-input-group__append) {
+        padding: 0;
+        overflow: hidden;
+      }
+
+      .btns {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+      }
+    }
+  }
+}
 </style>

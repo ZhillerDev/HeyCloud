@@ -9,7 +9,6 @@ export const staticRoutes = [
       hidden: true
     }
   },
-
   {
     path: "/",
     component: Layouts,

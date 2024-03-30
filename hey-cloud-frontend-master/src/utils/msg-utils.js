@@ -1,7 +1,7 @@
-import {MessagePlacementList, MessagePlugin, DialogPlugin} from "tdesign-vue-next";
+import {MessagePlugin, DialogPlugin} from "tdesign-vue-next";
 
 // 成功消息提示
-export const msgSuccess = (title, placement="bottom-right", duration=1000) => {
+export const msgSuccess = (title, placement = "bottom-right", duration = 1000) => {
   MessagePlugin.success({
     content: title,
     placement: placement,
@@ -10,7 +10,7 @@ export const msgSuccess = (title, placement="bottom-right", duration=1000) => {
 }
 
 // 警告消息提示
-export const msgWarning = (title, placement="bottom-right", duration=1000) => {
+export const msgWarning = (title, placement = "bottom-right", duration = 1000) => {
   MessagePlugin.warning({
     content: title,
     placement: placement,
@@ -19,7 +19,7 @@ export const msgWarning = (title, placement="bottom-right", duration=1000) => {
 }
 
 // 错误消息提示
-export const msgError = (title, placement="bottom-right", duration=1000) => {
+export const msgError = (title, placement = "bottom-right", duration = 1000) => {
   MessagePlugin.error({
     content: title,
     placement: placement,

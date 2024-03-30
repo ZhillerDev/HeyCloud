@@ -9,7 +9,7 @@ import router from "@/router/index.js";
 // 样式库
 import TDesign from 'tdesign-vue-next';
 import 'tdesign-vue-next/es/style/index.css';
-import './style.css'
+import '@a/styles/index.scss'
 
 
 const app = createApp(App);

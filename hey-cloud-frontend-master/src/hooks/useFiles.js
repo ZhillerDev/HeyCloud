@@ -3,22 +3,37 @@ export const useFiles = {
 
   // 把字节型文件大小换算成人类更喜欢看的方式
   calculateFileSize(size, isInteger = false) {
-    const unitScales = [
-      {name: 'B', scale: 1},
-      {name: 'KB', scale: Math.pow(1024, 1)},
-      {name: 'MB', scale: Math.pow(1024, 2)},
-      {name: 'GB', scale: Math.pow(1024, 3)},
-      {name: 'TB', scale: Math.pow(1024, 4)},
-    ];
-
-    const findProperUnit = (scales, size) =>
-      scales.find(({scale: unitScale}) => size >= unitScale) || scales[0];
-
-    const formatSize = (unit, size, isInteger) =>
-      `${isInteger ? Math.round(size / unit.scale) : size / unit.scale.toFixed(unit.scale > 1 ? 2 : 0)} ${unit.name}`;
-
-    const properUnit = findProperUnit(unitScales, size);
-    return formatSize(properUnit, size, isInteger);
+    const B = 1024
+    const KB = Math.pow(1024, 2)
+    const MB = Math.pow(1024, 3)
+    const GB = Math.pow(1024, 4)
+    if (isInteger) {
+      // 截取为整数
+      if (size < B) {
+        return `${size}B`
+      } else if (size < KB) {
+        return `${(size / B).toFixed(0)}KB`
+      } else if (size < MB) {
+        return `${(size / KB).toFixed(0)}MB`
+      } else if (size < GB) {
+        return `${(size / MB).toFixed(0)}GB`
+      } else {
+        return `${(size / GB).toFixed(0)}TB`
+      }
+    } else {
+      // 保留小数位
+      if (size < B) {
+        return `${size}B`
+      } else if (size < KB) {
+        return `${(size / B).toFixed(0)}KB`
+      } else if (size < MB) {
+        return `${(size / KB).toFixed(1)}MB`
+      } else if (size < GB) {
+        return `${(size / MB).toFixed(2)}GB`
+      } else {
+        return `${(size / GB).toFixed(3)}TB`
+      }
+    }
   },
 
   /**

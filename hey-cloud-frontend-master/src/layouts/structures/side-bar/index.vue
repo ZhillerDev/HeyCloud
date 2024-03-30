@@ -1,6 +1,5 @@
 <template>
   <div :class="{ 'has-logo': isCollapse }">
-    <side-logo style="height: 50px"/>
     <div class="menu-container">
       <t-menu
           default-value="3-2"
@@ -9,6 +8,14 @@
           width="220px"
 
       >
+        <template #logo>
+          <section style="cursor: pointer" @click="isCollapse=!isCollapse">
+            <div v-if="!isCollapse" style="font-weight: bold; font-size: large;">
+              HeyCloud
+            </div>
+            <img v-else width="32" :src="logo" alt="logo"/>
+          </section>
+        </template>
         <!--主操作区-->
         <t-submenu value="cloud">
           <template #icon>
@@ -62,11 +69,12 @@
           </template>
           我的分享
         </t-menu-item>
-        <template #operations>
-          <div>
-            存储空间
-          </div>
-        </template>
+
+<!--        <template #operations>-->
+<!--          <div style="height: 50px; background-color: #629dff">-->
+<!--            存储空间-->
+<!--          </div>-->
+<!--        </template>-->
       </t-menu>
     </div>
   </div>
@@ -78,6 +86,7 @@ import {useRoute} from "vue-router";
 import {storeToRefs} from 'pinia'
 import SideLogo from "@/layouts/components/side-logo.vue";
 import {useSettingStore} from "@/store/modules/setting-store.js";
+import {logo} from "@/utils/image-map-utils.js";
 
 const route = useRoute()
 const settingStore = useSettingStore()
@@ -104,6 +113,5 @@ const {isCollapse} = storeToRefs(settingStore)
 
 .menu-container {
   width: 100%;
-  height: 89%;
 }
 </style>

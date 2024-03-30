@@ -1,7 +1,7 @@
 <template>
   <div class="navigation-bar">
-    <div>
-
+    <div class="left-menu">
+      <storage-bar/>
     </div>
     <div class="right-menu">
       <user-info/>
@@ -14,6 +14,7 @@
 
 import UserInfo from "@/layouts/components/user-info.vue";
 import ScreenFull from "@/layouts/components/screen-full.vue";
+import StorageBar from "@/layouts/components/storage-bar.vue";
 </script>
 
 <style lang="scss" scoped>
@@ -60,6 +61,14 @@ import ScreenFull from "@/layouts/components/screen-full.vue";
         }
       }
     }
+  }
+
+  .left-menu {
+    margin-left: 10px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    color: #606266;
   }
 
   .right-menu {

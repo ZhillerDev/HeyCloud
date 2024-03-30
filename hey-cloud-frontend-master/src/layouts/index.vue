@@ -1,8 +1,8 @@
 <template>
-  <div :class="layoutClasses" class="app-wrapper">
+  <div class="app-wrapper">
     <!-- mobile 端侧边栏遮罩层 -->
     <side-bar class="sidebar-container"/>
-    <div class="main-container">
+    <div class="main-container" :style="isCollapse?'margin-left: var(--v3-sidebar-hide-width);':''">
       <div class="layout-header">
         <nav-bar/>
       </div>
@@ -13,6 +13,11 @@
 
 <script setup>
 import {AppMain, NavBar, SideBar} from "./structures/exp.js";
+import {useSettingStore} from "@/store/modules/setting-store.js";
+import {storeToRefs} from "pinia";
+const settingStore = useSettingStore()
+
+const {isCollapse} = storeToRefs(settingStore)
 </script>
 
 <style lang="scss" scoped>
@@ -38,9 +43,8 @@ $transition-time: 0.35s;
 
 .sidebar-container {
   transition: width $transition-time;
-  width: var(--v3-sidebar-width) !important;
   background-color: white;
-  height: 100%;
+  height: 100vh;
   position: fixed;
   top: 0;
   bottom: 0;

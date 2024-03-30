@@ -3,8 +3,15 @@ const parserUrl = (name) => {
   return new URL(base + name, import.meta.url).href
 }
 
+export const logo = parserUrl("/images/logo/hey-cloud.svg")
+
 // 未知图标
 export const unknownImg = parserUrl('/images/file/file_unknown.png')
+
+export const placeholderImgs = {
+  notFound: parserUrl("/images/error/not-found.png"),
+  invalid: parserUrl("/images/error/invalid.png")
+}
 
 // 文件类型图标集合
 export const fileTypeImgs = new Map([

@@ -4,7 +4,7 @@
       <slot/>
     </div>
     <router-link to="/">
-      <t-button>回到首页</t-button>
+      <t-button >回到首页</t-button>
     </router-link>
   </div>
 </template>

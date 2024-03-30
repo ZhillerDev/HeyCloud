@@ -25,7 +25,7 @@ import FooterBar from './footer-bar/index.vue'
 .app-main {
   width: 100%;
   display: flex;
-  margin: 10px;
+  padding: 5px 20px 5px 20px;
 }
 
 .app-scrollbar {

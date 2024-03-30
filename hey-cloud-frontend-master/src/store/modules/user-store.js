@@ -11,6 +11,8 @@ export const useUserStore = defineStore("user", () => {
   const roles = ref([])
   const username = ref("")
 
+  const storage = ref("32MB")
+
   const logout = () => {
     removeToken()
     token.value = ""
@@ -25,7 +27,7 @@ export const useUserStore = defineStore("user", () => {
     roles.value = []
   }
 
-  return {token, roles, username, logout, resetToken}
+  return {token, roles, username, storage,logout, resetToken}
 })
 
 /** 在 setup 外使用 */

@@ -27,8 +27,10 @@ export default ({mode})=>{
     resolve: {
       alias: {
         "@": path.resolve(__dirname, "./src"), // 路径别名
-        "@comp": path.resolve(__dirname, "./src/components"),
-        "@assets": path.resolve(__dirname, "./src/assets")
+        "@c": path.resolve(__dirname, "./src/components"),
+        "@a": path.resolve(__dirname, "./src/assets"),
+        "@p": path.resolve(__dirname, "./public"),
+        "@r": path.resolve(__dirname, "./src/apis/request")
       },
     },
 

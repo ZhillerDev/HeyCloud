@@ -1,11 +1,11 @@
 <template>
-  <div class="layout-logo-container" :class="{ collapse: isCollapse }" @click="isCollapse=!isCollapse">
+  <div class="layout-logo-container" :class="{ collapse: isCollapse }">
     <transition name="layout-logo-fade">
       <router-link v-if="isCollapse" key="collapse" to="/">
         <img src="../../../public/logo/hey-cloud.svg" class="layout-logo" alt="none"/>
       </router-link>
       <router-link v-else key="expand" to="/">
-        <div class="font-bold">
+        <div style="font-weight: bold">
           HeyCloud
         </div>
       </router-link>

@@ -4,7 +4,7 @@ const Layouts = () => import("@/layouts/index.vue")
 export const staticRoutes = [
   {
     path: "/login",
-    component: () => import("@/views/login/index.vue"),
+    component: () => import("@/layouts/pages/login/index.vue"),
     meta: {
       hidden: true
     }
@@ -25,5 +25,20 @@ export const staticRoutes = [
         }
       }
     ]
-  }
+  },
+  {
+    path: "/403",
+    component: () => import("@/layouts/pages/error/403.vue"),
+    meta: {
+      hidden: true
+    }
+  },
+  {
+    path: "/404",
+    component: () => import("@/layouts/pages/error/403.vue"),
+    meta: {
+      hidden: true
+    },
+    alias: "/:pathMatch(.*)*"
+  },
 ]

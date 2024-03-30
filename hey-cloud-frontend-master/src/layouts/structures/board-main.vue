@@ -9,14 +9,14 @@
           </keep-alive>
         </transition>
       </router-view>
-      <footer-bar/>
+<!--      <footer-bar/>-->
     </div>
     <!--    <back-to-top class="back-top"/>-->
   </section>
 </template>
 
 <script setup>
-import FooterBar from './FooterBar/index.vue'
+import FooterBar from './footer-bar/index.vue'
 </script>
 
 <style lang="scss" scoped>
@@ -25,6 +25,7 @@ import FooterBar from './FooterBar/index.vue'
 .app-main {
   width: 100%;
   display: flex;
+  margin: 10px;
 }
 
 .app-scrollbar {

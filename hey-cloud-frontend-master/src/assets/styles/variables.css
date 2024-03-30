@@ -8,7 +8,7 @@
     /** NavigationBar 组件 */
     --v3-navigationbar-height: 50px;
     --v3-navigationbar-bigicon-height: 70px;
-    /** SideBar 组件（左侧模式全部生效、顶部模式全部不生效、混合模式非颜色部分生效） */
+    /** side-bar 组件（左侧模式全部生效、顶部模式全部不生效、混合模式非颜色部分生效） */
     --v3-sidebar-width: 220px;
     --v3-sidebar-hide-width: 64px;
     --v3-sidebar-menu-item-height: 60px;
@@ -45,7 +45,7 @@ body.content-large {
     --v3-header-height: var(--v3-tagsview-height);
     /** NavigationBar 组件 */
     --v3-navigationbar-height: 0px;
-    /** SideBar 组件 */
+    /** side-bar 组件 */
     --v3-sidebar-width: 0px;
     --v3-sidebar-hide-width: 0px;
 }

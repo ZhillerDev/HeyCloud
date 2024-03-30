@@ -10,8 +10,7 @@ axios.defaults.timeout = 10000 * 5
 axios.defaults.baseURL = globalConfig.baseContext
 
 // POST 请求头
-axios.defaults.headers.post['Content-Type'] =
-  'application/x-www-form-urlencoded'
+axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
 
 // 请求携带cookie
 axios.defaults.withCredentials = true

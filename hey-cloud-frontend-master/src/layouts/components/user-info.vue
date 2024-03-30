@@ -16,7 +16,11 @@ const store = useUserStore()
 const router = useRouter()
 
 const options = [
-  {content: '个人中心', value: 1},
+  {
+    content: '个人中心', value: 1, onClick: () => {
+      router.replace("/person")
+    }
+  },
   {content: '通知', value: 2, divider: true},
   {
     content: '退出登录', value: 3, onClick: () => {

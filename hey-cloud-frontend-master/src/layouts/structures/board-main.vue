@@ -3,7 +3,7 @@
     <div class="app-scrollbar">
       <!-- key 采用 route.path 和 route.fullPath 有着不同的效果，大多数时候 path 更通用 -->
       <router-view v-slot="{ Component, route }">
-        <transition name="el-fade-in" mode="out-in">
+        <transition name="fade-in" mode="out-in">
           <keep-alive>
             <component :is="Component" :key="route.path" class="app-container-grow"/>
           </keep-alive>
@@ -25,7 +25,7 @@ import FooterBar from './footer-bar/index.vue'
 .app-main {
   width: 100%;
   display: flex;
-  padding: 5px 20px 5px 20px;
+  padding: 5px 16px 5px 16px;
 }
 
 .app-scrollbar {

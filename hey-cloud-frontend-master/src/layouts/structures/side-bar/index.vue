@@ -2,11 +2,11 @@
   <div :class="{ 'has-logo': isCollapse }">
     <div class="menu-container">
       <t-menu
-          default-value="3-2"
+          default-value="all"
           expand-mutex
           :collapsed="isCollapse"
           width="220px"
-
+          expanded="cloud"
       >
         <template #logo>
           <section style="cursor: pointer" @click="isCollapse=!isCollapse">
@@ -70,11 +70,11 @@
           我的分享
         </t-menu-item>
 
-<!--        <template #operations>-->
-<!--          <div style="height: 50px; background-color: #629dff">-->
-<!--            存储空间-->
-<!--          </div>-->
-<!--        </template>-->
+        <!--        <template #operations>-->
+        <!--          <div style="height: 50px; background-color: #629dff">-->
+        <!--            存储空间-->
+        <!--          </div>-->
+        <!--        </template>-->
       </t-menu>
     </div>
   </div>

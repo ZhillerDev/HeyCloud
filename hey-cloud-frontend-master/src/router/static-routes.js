@@ -23,6 +23,16 @@ export const staticRoutes = [
           svgIcon: "dashboard",
           affix: true
         }
+      },
+      {
+        path: "person",
+        component: () => import("@/views/person/index.vue"),
+        name: "Person",
+        meta: {
+          title: "个人设置",
+          svgIcon: "person",
+          affix: true
+        }
       }
     ]
   },

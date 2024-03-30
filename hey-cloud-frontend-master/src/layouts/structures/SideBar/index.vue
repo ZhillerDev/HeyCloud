@@ -5,6 +5,12 @@
 </template>
 
 <script setup>
+import {computed} from 'vue'
+import {useRoute} from "vue-router";
+import {storeToRefs} from 'pinia'
+
+const route = useRoute()
+
 
 </script>
 

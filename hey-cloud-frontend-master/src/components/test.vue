@@ -1,6 +1,5 @@
 <template>
   <div>
-<!--    <t-image :src="unknownImg"/>-->
     fuck
   </div>
 </template>

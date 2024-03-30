@@ -3,7 +3,7 @@ const parserUrl = (name) => {
   return new URL(base + name, import.meta.url).href
 }
 
-export const unknownImg = parserUrl('/images/file/file_unknown.png')
+export const unknownImg = parserUrl('/images/audio/wave.gif')
 
 
 

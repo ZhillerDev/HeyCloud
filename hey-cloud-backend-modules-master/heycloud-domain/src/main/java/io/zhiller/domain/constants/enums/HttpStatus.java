@@ -1,4 +1,4 @@
-package io.zhiller.infrastructure.constants.enums;
+package io.zhiller.domain.constants.enums;
 
 /**
  * 返回状态码

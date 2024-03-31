@@ -12,7 +12,7 @@ axios.defaults.timeout = 10000 * 5
 axios.defaults.baseURL = globalConfig.baseContext
 
 // POST 请求头
-axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
+axios.defaults.headers.post['Content-Type'] = 'application/json'
 
 // 请求携带cookie
 axios.defaults.withCredentials = true
@@ -78,7 +78,7 @@ export function get(url, params) {
 }
 
 // 封装post
-export function post(url, data = {}, info) {
+export function post(url, data = {}, info ) {
   return new Promise((resolve, reject) => {
     let newData = data
     if (info) {

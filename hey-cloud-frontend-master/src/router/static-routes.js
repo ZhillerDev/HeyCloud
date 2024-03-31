@@ -10,6 +10,13 @@ export const staticRoutes = [
     }
   },
   {
+    path: "/register",
+    component: () => import("@/layouts/pages/reg/index.vue"),
+    meta: {
+      hidden: true
+    }
+  },
+  {
     path: "/",
     component: Layouts,
     redirect: "/dashboard",

@@ -1,8 +1,6 @@
 package io.zhiller.domain.user;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,16 +14,18 @@ import java.util.Date;
 @Builder
 @TableName("user")
 public class User {
-  @TableId
+  @TableId(type = IdType.AUTO)
   private Long id;
+  @TableField("username")
   private String username;
+  @TableField("phone")
   private String phone;
   private String password;
   private String role;
   private String permission;
 
-  @TableField("created_at")
+  @TableField(value = "created_at", fill = FieldFill.INSERT)
   private Date createdTime;
-  @TableField("updated_at")
+  @TableField(value = "updated_at", fill = FieldFill.INSERT_UPDATE)
   private Date updatedTime;
 }

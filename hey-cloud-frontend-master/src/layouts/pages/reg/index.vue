@@ -2,30 +2,30 @@
   <div class="login-container">
     <div class="login-card">
       <div class="title">
-        <h2>HeyCloud 登录</h2>
+        <h2>HeyCloud 欢迎注册</h2>
       </div>
       <div class="content">
         <t-form ref="form" :data="formData" :rules="loginFormRules" @submit="onSubmit" label-align="left">
           <t-form-item label="用户名" name="username">
             <t-input v-model="formData.username"></t-input>
           </t-form-item>
+          <t-form-item label="手机号" name="phone">
+            <t-input v-model="formData.phone"></t-input>
+          </t-form-item>
           <t-form-item label="密码" name="password">
             <t-input v-model="formData.password" type="password"></t-input>
           </t-form-item>
-          <t-form-item label="" name="remember">
-            <t-checkbox v-model:checked="formData.remember">记住我</t-checkbox>
-          </t-form-item>
 
           <t-space class="btns">
-            <t-button :loading="loading" theme="primary" variant="base" type="submit" style="width: 260px;">登录
+            <t-button :loading="loading" theme="primary" variant="base" type="submit" style="width: 260px;">注册账户！
             </t-button>
             <t-button theme="default" variant="base" @click="handleClear" type="reset" style="width: 60px;">重填
             </t-button>
           </t-space>
         </t-form>
 
-        <t-button style="width: 100%; margin-top: 10px;" theme="default" variant="outline" @click="reg">
-          没有账号？新建一个！
+        <t-button style="width: 100%; margin-top: 10px;" theme="default" variant="outline" @click="backLogin">
+          返回登陆
         </t-button>
       </div>
     </div>
@@ -37,7 +37,7 @@ import {reactive, ref, computed} from "vue"
 import {useRouter} from "vue-router";
 import {DesktopIcon, LockOnIcon} from 'tdesign-icons-vue-next';
 import {msgError, msgSuccess, msgWarning} from "@/utils/msg-utils.js";
-import {login} from "@r/auth.js";
+import {login, register} from "@r/auth.js";
 import {setToken} from "@/utils/token-utils.js";
 
 const router = useRouter()
@@ -49,24 +49,26 @@ const codeUrl = ref("")
 /** 登录表单数据 */
 const formData = reactive({
   username: "zhillery",
-  password: "12345678",
-  remember: false
+  phone: "18078911281",
+  password: "12345678"
 })
 
-const reg = () => {
-  router.replace("/register")
-}
+const backLogin = () => router.replace("/login")
 
 /** 登录表单校验规则 */
 const loginFormRules = {
   username: [{required: true, message: "请输入用户名", trigger: "blur"}],
+  phone: [{required: true, message: "请输入手机号", trigger: "blur"}, {
+    min: 11,
+    max: 11,
+    message: "手机号长度不准确",
+    trigger: "blur"
+  }],
   password: [
     {required: true, message: "请输入密码", trigger: "blur"},
     {min: 6, max: 12, message: "长度在 6 到 12 个字符", trigger: "blur"}
   ],
-  remember: [
-    {required: false}
-  ]
+
 }
 
 const onReset = () => {
@@ -75,19 +77,18 @@ const onReset = () => {
 
 const onSubmit = ({validateResult, firstError}) => {
   if (validateResult === true) {
-    loading.value=true
-    login({
+    loading.value = true
+    register({
       username: formData.username,
-      password: formData.password,
-      remember: formData.remember
+      phone: formData.phone,
+      password: formData.password
     }).then(e => {
       console.log(e)
       if (e.code === 200) {
-        msgSuccess("登录成功，正在重定向")
-        setToken(e.data['tokenValue'])
-        router.replace("/")
+        msgSuccess("注册成功，请登录！")
+        router.replace("/login")
       } else {
-        msgError("登陆失败，请检查账户与密码正确与否")
+        msgError("注册失败，用户已存在！")
       }
       loading.value = false
     })

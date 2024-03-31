@@ -6,8 +6,13 @@ import cn.dev33.satoken.stp.StpUtil;
 import cn.dev33.satoken.util.SaResult;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import io.zhiller.domain.user.User;
 import io.zhiller.domain.user.dto.UserLoginDTO;
 import io.zhiller.domain.user.dto.UserRegisterDto;
+import io.zhiller.infrastructure.mapper.IUserMapper;
+import io.zhiller.infrastructure.service.IUserService;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,18 +22,23 @@ import java.util.List;
 @RequestMapping("/auth")
 public class UserController {
 
+  @Autowired
+  private IUserService userService;
+//  @Autowired
+//  private IUserMapper userMapper;
+
   @Operation(summary = "登录请求")
   @PostMapping("login")
   public SaResult doLogin(@RequestBody UserLoginDTO loginDTO) {
-    // 此处仅作模拟示例，真实项目需要从数据库中查询数据进行比对
-    if ("zhillery".equals(loginDTO.getUsername()) && "12345678".equals(loginDTO.getPassword())) {
-      if (loginDTO.isRemember())
-        StpUtil.login(loginDTO.getUsername(), new SaLoginModel().setIsLastingCookie(true).setTimeout(2592000));
-      else StpUtil.login(loginDTO.getUsername());
-      SaTokenInfo info = StpUtil.getTokenInfo();
-      return SaResult.data(info);
-    }
-    return SaResult.error();
+    User user = userService.getUser(loginDTO.getUsername());
+    if (user == null) return SaResult.error();
+    if (!loginDTO.getPassword().equals(user.getPassword())) return SaResult.error();
+
+    if (loginDTO.isRemember())
+      StpUtil.login(loginDTO.getUsername(), new SaLoginModel().setIsLastingCookie(true).setTimeout(2592000));
+    else StpUtil.login(loginDTO.getUsername());
+    SaTokenInfo info = StpUtil.getTokenInfo();
+    return SaResult.data(info);
   }
 
   @Operation(summary = "注销账户")
@@ -39,8 +49,13 @@ public class UserController {
   }
 
   @Operation(summary = "用户注册")
-  @PostMapping("reg")
+  @PostMapping("register")
   public SaResult register(@RequestBody UserRegisterDto registerDto) {
+    if (userService.getUser(registerDto.getPhone()) != null) return SaResult.error();
+    User user = new User();
+    BeanUtils.copyProperties(registerDto, user);
+    user.setRole("GUEST");
+    if (!userService.save(user)) return SaResult.error();
     return SaResult.ok();
   }
 

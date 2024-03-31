@@ -1,8 +1,9 @@
 <template>
   <div class="cloud-container">
-    <t-button style="width: 80px; margin-bottom: 10px;">
-      上传文件
-    </t-button>
+    <div class="cc-top">
+      <t-button style="width: 80px;" :loading="btnStatus.refresh" @click="refreshBtn">刷新</t-button>
+      <t-button style="width: 80px;" :disabled="btnStatus.upload">上传文件</t-button>
+    </div>
 
     <div style="height: calc(100vh - var(--v3-navigationbar-height) - 70px); overflow: scroll">
       <t-table
@@ -23,47 +24,72 @@
 </template>
 
 <script setup lang="jsx">
-import {ref} from 'vue';
-import {ErrorCircleFilledIcon, CheckCircleFilledIcon, CloseCircleFilledIcon} from 'tdesign-icons-vue-next';
+import {reactive, ref} from 'vue';
+import {unknownImg} from "@/utils/image-map-utils.js";
+import {getFileDetail, getFileList} from "@r/file.js";
+import {useUserStore} from "@/store/modules/user-store.js";
+import {getLocal} from "@/utils/token-utils.js";
+import {CacheKey} from "@/domain/constants/app-key.js";
+import {formatSize} from "@/utils/file-utils.js";
 
 const selectOnRowClick = ref(true);
 
-const statusNameListMap = {
-  0: {label: '审批通过', theme: 'success', icon: <CheckCircleFilledIcon/>},
-  1: {label: '审批失败', theme: 'danger', icon: <CloseCircleFilledIcon/>},
-  2: {label: '审批过期', theme: 'warning', icon: <ErrorCircleFilledIcon/>},
-};
+const userStore = useUserStore()
 
-const data = [];
-for (let i = 0; i < 5; i++) {
-  data.push({
-    index: i + 100,
-    pic: ['贾明', '张三', '王芳'],
-    filename: i % 3,
-    filetype: ['电子签署', '纸质签署', '纸质签署'],
-    filesize: [10, 20, 40],
-  });
+// 按钮组状态
+const btnStatus = reactive({
+  refresh: false,
+  upload: false
+})
+
+// 刷新按钮
+const refreshBtn = () => {
+  btnStatus.refresh = true
+  console.log(userStore.userInfo)
+  getFileList({'userId': getLocal(CacheKey.Phone)})
+      .then(e => {
+        let datas = e.data
+        let sum = 0;
+        data.value = []
+        for (let value in datas) {
+          console.log(datas[value])
+          data.value.push({
+            index: sum++,
+            pic: ['贾明'],
+            filename: datas[value]['fileName'],
+            filetype: datas[value]['fileType'],
+            filesize: formatSize(datas[value]['fileSize']),
+          });
+        }
+        console.log(data)
+      })
+      .finally(() => {
+        btnStatus.refresh = false
+      })
 }
+
+const data = ref([]);
+
 
 const columns = [
   {
     colKey: 'row-select',
     type: 'multiple',
-    // 禁用行选中方式一：使用 disabled 禁用行（示例代码有效，勿删）。disabled 参数：{row: RowData; rowIndex: number })
-    // 这种方式禁用行选中，当前行会添加行类名 t-table__row--disabled，禁用行文字变灰
-    // disabled: ({ rowIndex }) => rowIndex === 1 || rowIndex === 3,
-
-    // 禁用行选中方式二：使用 checkProps 禁用行（示例代码有效，勿删）
-    // 这种方式禁用行选中，行文本不会变灰
     width: 50,
   },
-  {colKey: 'pic', title: '', width: '100'},
+  {
+    colKey: 'pic', title: '', width: '100', cell: (h, {row}) => {
+      return (
+          <t-image src={unknownImg} style="height: 32px; width:32px;"/>
+      );
+    },
+  },
   {
     colKey: 'filename',
     title: '文件名',
     width: '500'
   },
-  {colKey: 'filetype', title: '文件类型', width: '80'},
+  {colKey: 'filetype', title: '类型', width: '80'},
   {colKey: 'filesize', title: '文件大小', ellipsis: true},
 ];
 
@@ -80,5 +106,11 @@ const rehandleSelectChange = (value, ctx) => {
 .cloud-container {
   display: flex;
   flex-direction: column;
+
+  .cc-top {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 10px;
+  }
 }
 </style>

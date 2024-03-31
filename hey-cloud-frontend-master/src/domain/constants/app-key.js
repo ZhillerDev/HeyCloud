@@ -1,3 +1,4 @@
 export const CacheKey = {
-  Token: "token"
+  Token: "token",
+  Phone: "user_phone"
 }

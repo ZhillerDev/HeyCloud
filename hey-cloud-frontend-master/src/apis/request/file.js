@@ -12,13 +12,20 @@ import {get, post} from "@/apis/http.js";
 /**
  * 文件列表操作
  */
-export const getFileList = (e) => get("/file/getFileList", e)
+export const getFileList = (e) => get("/minio/details", e)
 export const getFileRecovery = (e) => get("/file/getFileRecovery", e)
 export const getFolderTree = (p) => get('/file/getFolderTree', p)
 // 获取我已分享的文件列表
 export const getMyShareFileList = (p) => get('/share/shareList', p)
 // 获取存储占用
 export const getStorage = (p) => get('/storage/total', p)
+// export const getFileList = (e) => get("/file/getFileList", e)
+// export const getFileRecovery = (e) => get("/file/getFileRecovery", e)
+// export const getFolderTree = (p) => get('/file/getFolderTree', p)
+// // 获取我已分享的文件列表
+// export const getMyShareFileList = (p) => get('/share/shareList', p)
+// // 获取存储占用
+// export const getStorage = (p) => get('/storage/total', p)
 
 
 /**

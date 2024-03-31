@@ -44,8 +44,7 @@ public class UserController {
     if (loginDTO.isRemember())
       StpUtil.login(loginDTO.getUsername(), new SaLoginModel().setIsLastingCookie(true).setTimeout(2592000));
     else StpUtil.login(loginDTO.getUsername());
-    SaTokenInfo info = StpUtil.getTokenInfo();
-    return SaResult.data(info);
+    return SaResult.data(user);
   }
 
   @Operation(summary = "注销账户")

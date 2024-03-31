@@ -1,5 +1,9 @@
 package io.zhiller.common.minio;
 
+import io.minio.Result;
+import io.minio.messages.Item;
+import io.zhiller.basic.constants.common.AjaxResult;
+import io.zhiller.basic.utils.FileUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.compress.utils.IOUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -9,6 +13,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @RestController
@@ -19,7 +27,7 @@ public class MinioController {
   private MinioUtils minioUtils;
 
   @Autowired
-  private MinioProperties minioConfig;
+  private MinioProperties minioProperties;
 
   /**
    * 文件上传
@@ -35,12 +43,33 @@ public class MinioController {
       String newFileName = System.currentTimeMillis() + "." + StringUtils.substringAfterLast(fileName, ".");
       //类型
       String contentType = file.getContentType();
-      minioUtils.uploadFile(minioConfig.getBucketName(), file, newFileName, contentType);
+      minioUtils.uploadFile(minioProperties.getBucketName(), file, newFileName, contentType);
       return "上传成功";
     } catch (Exception e) {
       log.error("上传失败");
       return "上传失败";
     }
+  }
+
+  @GetMapping("/details")
+  public AjaxResult getDetails(@RequestParam String userId) {
+    Map<Long, MinioDto> map = new HashMap<>();
+    LinkedList<Result<Item>> results = minioUtils.listObjects(minioProperties.getBucketName(), userId + "/", false);
+    results.forEach(e -> {
+      try {
+        Item item = e.get();
+        map.put(
+          item.size(),
+          MinioDto.builder()
+            .fileName(FileUtils.getFileName(item.objectName()))
+            .fileExtension(FileUtils.getFileExtension(item.objectName()))
+            .fileSize(item.size()).build()
+        );
+      } catch (Exception exception) {
+        exception.printStackTrace();
+      }
+    });
+    return AjaxResult.success(map);
   }
 
   /**
@@ -50,7 +79,7 @@ public class MinioController {
    */
   @DeleteMapping("/")
   public void delete(@RequestParam("fileName") String fileName) {
-    minioUtils.removeFile(minioConfig.getBucketName(), fileName);
+    minioUtils.removeFile(minioProperties.getBucketName(), fileName);
   }
 
   /**
@@ -61,7 +90,7 @@ public class MinioController {
    */
   @GetMapping("/info")
   public String getFileStatusInfo(@RequestParam("fileName") String fileName) {
-    return minioUtils.getFileStatusInfo(minioConfig.getBucketName(), fileName);
+    return minioUtils.getFileStatusInfo(minioProperties.getBucketName(), fileName);
   }
 
   /**
@@ -72,7 +101,7 @@ public class MinioController {
    */
   @GetMapping("/url")
   public String getPresignedObjectUrl(@RequestParam("fileName") String fileName) {
-    return minioUtils.getPresignedObjectUrl(minioConfig.getBucketName(), fileName);
+    return minioUtils.getPresignedObjectUrl(minioProperties.getBucketName(), fileName);
   }
 
   /**
@@ -84,7 +113,7 @@ public class MinioController {
   @GetMapping("/download")
   public void download(@RequestParam("fileName") String fileName, HttpServletResponse response) {
     try {
-      InputStream fileInputStream = minioUtils.getObject(minioConfig.getBucketName(), fileName);
+      InputStream fileInputStream = minioUtils.getObject(minioProperties.getBucketName(), fileName);
       response.setHeader("Content-Disposition", "attachment;filename=" + fileName);
       response.setContentType("application/force-download");
       response.setCharacterEncoding("UTF-8");

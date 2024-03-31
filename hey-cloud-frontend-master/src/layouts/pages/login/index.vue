@@ -38,8 +38,9 @@ import {useRouter} from "vue-router";
 import {DesktopIcon, LockOnIcon} from 'tdesign-icons-vue-next';
 import {msgError, msgSuccess, msgWarning} from "@/utils/msg-utils.js";
 import {login} from "@r/auth.js";
-import {setToken} from "@/utils/token-utils.js";
+import {setLocal, setToken} from "@/utils/token-utils.js";
 import {useUserStore} from "@/store/modules/user-store.js";
+import {CacheKey} from "@/domain/constants/app-key.js";
 
 const userStore = useUserStore();
 
@@ -86,7 +87,10 @@ const onSubmit = ({validateResult, firstError}) => {
       if (e.code === 200) {
         msgSuccess("登录成功，正在重定向")
         setToken(e.data['tokenValue'])
+        setLocal(CacheKey.Phone, e.data['phone'])
         userStore.isLogin = true
+        userStore.phone = e.data['phone']
+
         router.replace("/")
       } else {
         msgError("登陆失败，请检查账户与密码正确与否")

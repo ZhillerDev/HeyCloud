@@ -1,14 +1,15 @@
 // 用户store
 import {useCommon} from "@/hooks/useCommon.js";
-import {removeToken} from "@/utils/token-utils.js";
+import {getLocal, removeToken} from "@/utils/token-utils.js";
 import {resetRouter} from "@/router/config/helper-router.js";
 import {defineStore} from "pinia"
 import store from "@/store/index.js";
 import {ref} from "vue"
+import {CacheKey} from "@/domain/constants/app-key.js";
 
 export const useUserStore = defineStore("user", () => {
   const token = ref(useCommon.getCookies("token") || "")
-  const userInfo = ref({})
+  const phone = ref(getLocal(CacheKey.Phone) !== null ? getLocal(CacheKey.Phone) : "")
   const isLogin = ref(false)
 
   const logout = () => {
@@ -24,7 +25,7 @@ export const useUserStore = defineStore("user", () => {
     token.value = ""
   }
 
-  return {token, userInfo, isLogin, logout, resetToken}
+  return {token, phone, isLogin, logout, resetToken}
 })
 
 /** 在 setup 外使用 */

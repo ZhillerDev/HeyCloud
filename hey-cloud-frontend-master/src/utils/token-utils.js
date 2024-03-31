@@ -10,3 +10,13 @@ export const setToken = (token) => {
 export const removeToken = () => {
   localStorage.removeItem(CacheKey.Token)
 }
+
+export const setLocal = (type, item) => {
+  localStorage.setItem(type, item)
+}
+export const getLocal = (type) => {
+  return localStorage.getItem(type)
+}
+export const removeLocal = (type) => {
+  localStorage.removeItem(type)
+}

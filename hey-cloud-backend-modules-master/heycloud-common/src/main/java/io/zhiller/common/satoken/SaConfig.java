@@ -28,7 +28,8 @@ public class SaConfig {
       "/favicon.ico",
 
       // 不拦截的测试接口
-      "/test/**"
+      "/test/**",
+      "/minio/**"
     };
 
     return new SaServletFilter()

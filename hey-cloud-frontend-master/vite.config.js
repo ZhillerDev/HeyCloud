@@ -1,6 +1,7 @@
 import {defineConfig, loadEnv} from 'vite'
 import vue from '@vitejs/plugin-vue'
 import path from "path";
+import vueJsx from "@vitejs/plugin-vue-jsx"; // 配置vue使用jsx
 
 // tdesign包自动引入（因为我懒）
 import AutoImport from 'unplugin-auto-import/vite';
@@ -13,7 +14,7 @@ export default ({mode}) => {
   const env = loadEnv(mode, process.cwd())
   return {
     base: env.VITE_PUBLIC_PATH,
-    plugins: [vue(),
+    plugins: [vue(),vueJsx(),
       AutoImport({
         resolvers: [TDesignResolver({
           library: 'vue-next'

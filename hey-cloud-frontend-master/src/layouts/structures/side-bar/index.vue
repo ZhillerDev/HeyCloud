@@ -7,6 +7,7 @@
           :collapsed="isCollapse"
           width="220px"
           expanded="cloud"
+          @change="onChangeMenu"
       >
         <template #logo>
           <section style="cursor: pointer" @click="isCollapse=!isCollapse">
@@ -24,25 +25,25 @@
           <template #title>
             <span>云盘空间</span>
           </template>
-          <t-menu-item value="all">
+          <t-menu-item value="files">
             <template #icon>
               <t-icon name="app"/>
             </template>
             全部文件
           </t-menu-item>
-          <t-menu-item value="doc">
+          <t-menu-item value="files">
             <template #icon>
               <t-icon name="file"/>
             </template>
             文档
           </t-menu-item>
-          <t-menu-item value="pic">
+          <t-menu-item value="files">
             <template #icon>
               <t-icon name="image"/>
             </template>
             图片
           </t-menu-item>
-          <t-menu-item value="etc">
+          <t-menu-item value="files">
             <template #icon>
               <t-icon name="round"/>
             </template>
@@ -87,11 +88,16 @@ import {storeToRefs} from 'pinia'
 import SideLogo from "@/layouts/components/side-logo.vue";
 import {useSettingStore} from "@/store/modules/setting-store.js";
 import {logo} from "@/utils/image-map-utils.js";
+import router from "@/router/index.js";
 
 const route = useRoute()
 const settingStore = useSettingStore()
 
 const {isCollapse} = storeToRefs(settingStore)
+
+const onChangeMenu = (val) => {
+  router.replace({path: "/" + val})
+}
 </script>
 
 <style lang="scss" scoped>

@@ -21,6 +21,9 @@ axios.defaults.withCredentials = true
 axios.interceptors.request.use(
   (config) => {
     config.headers['token'] = getToken()
+    if(config.data instanceof FormData){
+      config.headers['Content-Type'] = 'multipart/form-data';
+    }
     return config
   },
   (error) => {

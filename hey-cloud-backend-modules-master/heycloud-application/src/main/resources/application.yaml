@@ -38,3 +38,9 @@ cloud:
     wait-for-tasks-to-complete-on-shutdown: false
     await-termination-seconds: 10
 
+  minio:
+    endpoint: http://127.0.0.1:9000
+    accessKey: minio
+    secretKey: 12345678
+    bucketName: upload
+

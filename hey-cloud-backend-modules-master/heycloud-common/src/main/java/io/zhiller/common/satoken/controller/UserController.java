@@ -6,6 +6,8 @@ import cn.dev33.satoken.stp.StpUtil;
 import cn.dev33.satoken.util.SaResult;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import io.zhiller.common.minio.MinioProperties;
+import io.zhiller.common.minio.MinioUtils;
 import io.zhiller.domain.user.User;
 import io.zhiller.domain.user.dto.UserLoginDTO;
 import io.zhiller.domain.user.dto.UserRegisterDto;
@@ -24,6 +26,11 @@ public class UserController {
 
   @Autowired
   private IUserService userService;
+
+  @Autowired
+  private MinioUtils minioUtils;
+  @Autowired
+  private MinioProperties minioProperties;
 //  @Autowired
 //  private IUserMapper userMapper;
 
@@ -56,6 +63,8 @@ public class UserController {
     BeanUtils.copyProperties(registerDto, user);
     user.setRole("GUEST");
     if (!userService.save(user)) return SaResult.error();
+
+    minioUtils.createDir(minioProperties.getBucketName(), registerDto.getPhone());
     return SaResult.ok();
   }
 

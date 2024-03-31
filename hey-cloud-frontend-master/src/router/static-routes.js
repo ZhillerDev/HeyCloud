@@ -40,6 +40,16 @@ export const staticRoutes = [
           svgIcon: "person",
           affix: true
         }
+      },
+      {
+        path: "files",
+        component: () => import("@/views/cloud/index.vue"),
+        name: "Files",
+        meta: {
+          title: "云盘主页",
+          svgIcon: "files",
+          affix: true
+        }
       }
     ]
   },

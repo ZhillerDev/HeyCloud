@@ -23,3 +23,18 @@ knife4j:
   enable: true
   setting:
     language: zh_cn
+
+# 项目全局配置
+cloud:
+  # 异步线程池
+  async:
+    enable: true
+    core-pool-size: 8
+    max-pool-size: 40000
+    queue-capacity: 80000
+    thread-name-prefix: Cloud-Async-
+    keep-alive-seconds: 60
+    allow-core-thread-time-out: false
+    wait-for-tasks-to-complete-on-shutdown: false
+    await-termination-seconds: 10
+

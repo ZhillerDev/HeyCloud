@@ -17,7 +17,7 @@ springdoc:
   group-configs:
     - group: 'default'
       paths-to-match: '/**'
-      packages-to-scan: com.example.security.controller
+      packages-to-scan: io.zhiller.application.controller,io.zhiller.common.satoken.controller
 # knife4j的增强配置，不需要增强可以不配
 knife4j:
   enable: true

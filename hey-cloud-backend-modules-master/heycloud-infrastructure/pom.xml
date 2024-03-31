@@ -13,12 +13,9 @@
     <artifactId>heycloud-infrastructure</artifactId>
 
     <dependencies>
-
-
-        <!--需要使用satoken提供的权限注解-->
         <dependency>
             <groupId>io.zhiller</groupId>
-            <artifactId>heycloud-common</artifactId>
+            <artifactId>heycloud-domain</artifactId>
             <version>1.0.0</version>
         </dependency>
     </dependencies>

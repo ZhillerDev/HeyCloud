@@ -3,6 +3,8 @@ import Cookies from 'js-cookie'
 
 export const useCommon = {
 
+
+
   setCookies(name, value) {
     Cookies.set(name, value)
   },

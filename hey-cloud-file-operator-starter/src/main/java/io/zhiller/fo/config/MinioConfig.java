@@ -14,17 +14,10 @@ public class MinioConfig {
   @Autowired
   private FoProperties foProperties;
 
-  @Resource
-  private MinioProps minioProps;
-
   @Bean
   public MinioClient minioClient() {
+    MinioProps minioProps = foProperties.getMinioProps();
     return MinioClient.builder().endpoint(minioProps.getEndpoint())
       .credentials(minioProps.getAccessKey(), minioProps.getSecretKey()).build();
-  }
-
-  @Bean
-  public MinioUploader minioUploader() {
-    return new MinioUploader(foProperties.getMinioProps());
   }
 }

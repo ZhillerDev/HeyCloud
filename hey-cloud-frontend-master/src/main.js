@@ -5,6 +5,7 @@ import App from './App.vue'
 // 通用组件
 import store from "@/store";
 import router from "@/router/index.js";
+import '@/router/config/before-router.js'
 
 // 样式库
 import TDesign from 'tdesign-vue-next';

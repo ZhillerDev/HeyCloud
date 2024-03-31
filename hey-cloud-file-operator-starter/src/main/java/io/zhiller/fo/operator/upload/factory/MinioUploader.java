@@ -2,6 +2,7 @@ package io.zhiller.fo.operator.upload.factory;
 
 import io.minio.*;
 import io.minio.errors.MinioException;
+import io.zhiller.fo.config.FoProperties;
 import io.zhiller.fo.domain.storage.MinioProps;
 import io.zhiller.fo.domain.constants.StorageTypeEnum;
 import io.zhiller.fo.domain.constants.UploadStatusEnum;
@@ -28,6 +29,9 @@ import java.security.NoSuchAlgorithmException;
 
 @Slf4j
 public class MinioUploader extends IUploader {
+
+  @Autowired
+  FoProperties foProperties;
 
   private MinioProps minioProps;
 

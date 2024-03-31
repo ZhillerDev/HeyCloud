@@ -5,13 +5,13 @@ import path from "path";
 // tdesign包自动引入（因为我懒）
 import AutoImport from 'unplugin-auto-import/vite';
 import Components from 'unplugin-vue-components/vite';
-import { TDesignResolver } from 'unplugin-vue-components/resolvers';
+import {TDesignResolver} from 'unplugin-vue-components/resolvers';
 
 
 // https://vitejs.dev/config/
-export default ({mode})=>{
+export default ({mode}) => {
   const env = loadEnv(mode, process.cwd())
-  return{
+  return {
     base: env.VITE_PUBLIC_PATH,
     plugins: [vue(),
       AutoImport({
@@ -36,21 +36,21 @@ export default ({mode})=>{
 
     // 开发服务器配置
     server: {
+      https: false,
+      cors: true,
       // 禁用主机检查
       disableHostCheck: true,
       // 监听的主机地址
-      host: env.VITE_FRONTEND_HOST,
+      host: true,
+      strictPort: true,
       // 端口号
       port: env.VITE_FRONTEND_PORT,
       // 配置代理
       proxy: {
         '/api': {
-          target: 'http://localhost:20001',
-          ws: true,
+          target: 'http://127.0.0.1:20001',
           changeOrigin: true,
-          pathRewrite: {
-            '^/api': '/',
-          },
+          rewrite: (path) => path.replace(/^\/api/, ""),
         },
       },
     },

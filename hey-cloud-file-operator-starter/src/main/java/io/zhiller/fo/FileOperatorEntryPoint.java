@@ -19,7 +19,7 @@ import org.springframework.jmx.support.RegistrationPolicy;
 
 @Slf4j
 @Configuration
-@ConditionalOnClass(FoProperties.class)
+//@ConditionalOnClass(FoProperties.class)
 @EnableConfigurationProperties({FoProperties.class})
 @EnableMBeanExport(registration = RegistrationPolicy.IGNORE_EXISTING)
 public class FileOperatorEntryPoint {
@@ -36,6 +36,11 @@ public class FileOperatorEntryPoint {
       GlobalUtils.ROOT_PATH = "upload";
     }
     return new FoCenterOperator(properties);
+  }
+
+  @Bean
+  public MinioUploader minioUploader() {
+    return new MinioUploader(this.properties.getMinioProps());
   }
 
   @Bean

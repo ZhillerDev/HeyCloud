@@ -11,6 +11,7 @@
 import {useRouter} from "vue-router";
 import {useUserStore} from "@/store/modules/user-store.js";
 import {msgSuccess} from "@/utils/msg-utils.js";
+import {logout} from "@r/auth.js";
 
 const store = useUserStore()
 const router = useRouter()
@@ -25,6 +26,7 @@ const options = [
   {
     content: '退出登录', value: 3, onClick: () => {
       store.logout()
+      logout()
       router.push("/login")
       msgSuccess("成功退出登录！")
     },

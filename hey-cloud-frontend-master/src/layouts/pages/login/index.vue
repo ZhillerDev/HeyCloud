@@ -12,6 +12,9 @@
           <t-form-item label="密码" name="password">
             <t-input v-model="formData.password" type="password"></t-input>
           </t-form-item>
+          <t-form-item label="" name="remember">
+            <t-checkbox v-model:checked="formData.remember">记住我</t-checkbox>
+          </t-form-item>
 
           <t-space class="btns">
             <t-button :loading="loading" theme="primary" variant="base" type="submit" style="width: 260px;">登录
@@ -30,6 +33,8 @@ import {reactive, ref, computed} from "vue"
 import {useRouter} from "vue-router";
 import {DesktopIcon, LockOnIcon} from 'tdesign-icons-vue-next';
 import {msgSuccess, msgWarning} from "@/utils/msg-utils.js";
+import {login} from "@r/auth.js";
+import {setToken} from "@/utils/token-utils.js";
 
 const router = useRouter()
 const form = ref(null);
@@ -39,8 +44,9 @@ const loading = ref(false)
 const codeUrl = ref("")
 /** 登录表单数据 */
 const formData = reactive({
-  username: "admin",
+  username: "zhillery",
   password: "12345678",
+  remember: false
 })
 
 /** 登录表单校验规则 */
@@ -48,7 +54,10 @@ const loginFormRules = {
   username: [{required: true, message: "请输入用户名", trigger: "blur"}],
   password: [
     {required: true, message: "请输入密码", trigger: "blur"},
-    {min: 8, max: 16, message: "长度在 8 到 16 个字符", trigger: "blur"}
+    {min: 6, max: 12, message: "长度在 6 到 12 个字符", trigger: "blur"}
+  ],
+  remember: [
+    {required: false}
   ]
 }
 
@@ -58,7 +67,18 @@ const onReset = () => {
 
 const onSubmit = ({validateResult, firstError}) => {
   if (validateResult === true) {
-    msgSuccess('提交成功');
+    login({
+      username: formData.username,
+      password: formData.password,
+      remember: formData.remember
+    }).then(e => {
+      console.log(e)
+      if (e.code === 200) {
+        msgSuccess("登录成功，正在重定向")
+        setToken(e.data['tokenValue'])
+        router.replace("/")
+      }
+    })
   } else {
     console.log('Validate Errors: ', firstError, validateResult);
     msgWarning(firstError);

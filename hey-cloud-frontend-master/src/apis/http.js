@@ -3,6 +3,8 @@ import axios from "axios";
 import {globalConfig} from "@/config/index.js";
 import {msgError, msgWarning} from "@/utils/msg-utils.js";
 import {useCommon} from "@/hooks/useCommon.js";
+import {getToken, setToken} from "@/utils/token-utils.js";
+import {CacheKey} from "@/domain/constants/app-key.js";
 
 axios.defaults.timeout = 10000 * 5
 
@@ -18,7 +20,7 @@ axios.defaults.withCredentials = true
 // 请求拦截器
 axios.interceptors.request.use(
   (config) => {
-    config.headers['token'] = useCommon.getCookies(globalConfig.tokenKeyName)
+    config.headers['token'] = getToken()
     return config
   },
   (error) => {

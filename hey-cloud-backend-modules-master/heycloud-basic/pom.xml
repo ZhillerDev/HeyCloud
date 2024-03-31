@@ -10,20 +10,7 @@
     </parent>
 
     <groupId>io.zhiller</groupId>
-    <artifactId>heycloud-infrastructure</artifactId>
-
-    <dependencies>
-        <dependency>
-            <groupId>io.zhiller</groupId>
-            <artifactId>heycloud-domain</artifactId>
-            <version>1.0.0</version>
-        </dependency>
-        <dependency>
-            <groupId>io.zhiller</groupId>
-            <artifactId>heycloud-basic</artifactId>
-            <version>1.0.0</version>
-        </dependency>
-    </dependencies>
+    <artifactId>heycloud-basic</artifactId>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>

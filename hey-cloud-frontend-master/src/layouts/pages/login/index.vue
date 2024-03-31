@@ -39,13 +39,14 @@ import {DesktopIcon, LockOnIcon} from 'tdesign-icons-vue-next';
 import {msgError, msgSuccess, msgWarning} from "@/utils/msg-utils.js";
 import {login} from "@r/auth.js";
 import {setToken} from "@/utils/token-utils.js";
+import {useUserStore} from "@/store/modules/user-store.js";
+
+const userStore = useUserStore();
 
 const router = useRouter()
 const form = ref(null);
 /** 登录按钮 Loading */
 const loading = ref(false)
-/** 验证码图片 URL */
-const codeUrl = ref("")
 /** 登录表单数据 */
 const formData = reactive({
   username: "zhillery",
@@ -75,7 +76,7 @@ const onReset = () => {
 
 const onSubmit = ({validateResult, firstError}) => {
   if (validateResult === true) {
-    loading.value=true
+    loading.value = true
     login({
       username: formData.username,
       password: formData.password,
@@ -85,6 +86,7 @@ const onSubmit = ({validateResult, firstError}) => {
       if (e.code === 200) {
         msgSuccess("登录成功，正在重定向")
         setToken(e.data['tokenValue'])
+        userStore.isLogin = true
         router.replace("/")
       } else {
         msgError("登陆失败，请检查账户与密码正确与否")

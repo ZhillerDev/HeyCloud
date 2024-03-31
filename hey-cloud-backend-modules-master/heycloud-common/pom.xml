@@ -36,6 +36,11 @@
             <artifactId>heycloud-domain</artifactId>
             <version>1.0.0</version>
         </dependency>
+        <dependency>
+            <groupId>io.zhiller</groupId>
+            <artifactId>heycloud-basic</artifactId>
+            <version>1.0.0</version>
+        </dependency>
     </dependencies>
 
     <properties>

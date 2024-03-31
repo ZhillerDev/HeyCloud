@@ -8,15 +8,13 @@ import {ref} from "vue"
 
 export const useUserStore = defineStore("user", () => {
   const token = ref(useCommon.getCookies("token") || "")
-  const roles = ref([])
-  const username = ref("")
-
-  const storage = ref("32MB")
+  const userInfo = ref({})
+  const isLogin = ref(false)
 
   const logout = () => {
     removeToken()
     token.value = ""
-    roles.value = []
+    isLogin.value = false
     resetRouter()
   }
 
@@ -24,10 +22,9 @@ export const useUserStore = defineStore("user", () => {
   const resetToken = () => {
     removeToken()
     token.value = ""
-    roles.value = []
   }
 
-  return {token, roles, username, storage,logout, resetToken}
+  return {token, userInfo, isLogin, logout, resetToken}
 })
 
 /** 在 setup 外使用 */

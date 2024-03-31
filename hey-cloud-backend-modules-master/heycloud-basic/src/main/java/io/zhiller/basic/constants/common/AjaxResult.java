@@ -1,6 +1,6 @@
-package io.zhiller.domain.constants.common;
+package io.zhiller.basic.constants.common;
 
-import io.zhiller.domain.constants.enums.HttpStatus;
+import io.zhiller.basic.constants.enums.HttpStatus;
 
 import java.util.HashMap;
 import java.util.Objects;

@@ -11,10 +11,16 @@
     <packaging>pom</packaging>
 
     <modules>
+        <!--Springboot应用入口点-->
         <module>heycloud-application</module>
+        <!--领域层，处理实体类与聚合对象-->
         <module>heycloud-domain</module>
+        <!--通用模块，如MQ和satoken等支持-->
         <module>heycloud-common</module>
+        <!--基础设施层，遵循依赖倒置原则处理数据库-->
         <module>heycloud-infrastructure</module>
+        <!--工具层，提供常用的工具类-->
+        <module>heycloud-basic</module>
     </modules>
 
     <properties>

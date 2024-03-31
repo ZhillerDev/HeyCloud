@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
 import io.zhiller.domain.user.User;
-import io.zhiller.domain.utils.ValidateUtils;
+import io.zhiller.basic.utils.ValidateUtils;
 import io.zhiller.infrastructure.mapper.IUserMapper;
 import io.zhiller.infrastructure.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;

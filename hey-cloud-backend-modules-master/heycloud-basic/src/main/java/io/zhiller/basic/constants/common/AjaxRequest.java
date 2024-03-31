@@ -1,4 +1,4 @@
-package io.zhiller.domain.constants.common;
+package io.zhiller.basic.constants.common;
 
 import lombok.Builder;
 import lombok.Data;

@@ -2,7 +2,7 @@ package io.zhiller.application.controller;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.zhiller.domain.user.User;
-import io.zhiller.domain.constants.common.AjaxResult;
+import io.zhiller.basic.constants.common.AjaxResult;
 import io.zhiller.infrastructure.service.IUserService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;

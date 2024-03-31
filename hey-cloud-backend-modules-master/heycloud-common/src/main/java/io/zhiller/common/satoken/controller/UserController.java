@@ -6,8 +6,8 @@ import cn.dev33.satoken.stp.StpUtil;
 import cn.dev33.satoken.util.SaResult;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import io.zhiller.common.satoken.domain.UserLoginDTO;
-import io.zhiller.common.satoken.domain.UserRegisterDto;
+import io.zhiller.domain.user.dto.UserLoginDTO;
+import io.zhiller.domain.user.dto.UserRegisterDto;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

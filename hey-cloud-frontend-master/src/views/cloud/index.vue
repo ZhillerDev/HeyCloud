@@ -3,7 +3,7 @@
     <div class="cc-top">
       <t-button style="width: 80px;" :loading="btnStatus.refresh" @click="refreshBtn">刷新</t-button>
       <t-button style="width: 80px;" :disabled="btnStatus.upload" @click="uploadBtn">上传文件</t-button>
-      <t-button style="width: 80px; margin-left: 2px;" :disabled="btnStatus.delete">删除文件</t-button>
+      <t-button style="width: 80px; margin-left: 2px;" :disabled="btnStatus.delete" @click="removeBtn">删除文件</t-button>
     </div>
 
     <div style="height: calc(100vh - var(--v3-navigationbar-height) - 70px); overflow: scroll">
@@ -28,13 +28,13 @@
 <script setup lang="jsx">
 import {reactive, ref} from 'vue';
 import {unknownImg} from "@/utils/image-map-utils.js";
-import {getFileDetail, getFileList} from "@r/file.js";
+import {getFileDetail, getFileList, removeObject} from "@r/file.js";
 import {useUserStore} from "@/store/modules/user-store.js";
 import {getLocal} from "@/utils/token-utils.js";
 import {CacheKey} from "@/domain/constants/app-key.js";
 import {formatFileSizeWithUnit, formatSize} from "@/utils/file-utils.js";
 import {useFileStore} from "@/store/modules/file-store.js";
-import {msgSuccess} from "@/utils/msg-utils.js";
+import {msgError, msgSuccess} from "@/utils/msg-utils.js";
 import {fileTypeImgs} from "@/utils/image-map-utils.js";
 
 const selectOnRowClick = ref(true);
@@ -84,6 +84,20 @@ const uploadBtn = () => {
   console.log(fileTypeImgs.get("jpg"))
 }
 
+const removeBtn = () => {
+  btnStatus.delete = true
+  removeObject({"fileName": getLocal(CacheKey.Phone) + "/" + selectedFileName.value})
+      .then(e => {
+        if (e.code === 200) {
+          refreshBtn()
+          msgSuccess("成功删除文件")
+        } else {
+          msgError("很抱歉，删除失败。。。")
+          btnStatus.delete = false
+        }
+      })
+}
+
 const data = ref([]);
 
 
@@ -118,6 +132,7 @@ const selectedFileName = ref("")
 const rehandleSelectChange = (value, {selectedRowData}) => {
   selectedRowKeys.value = value;
   selectedFileName.value = selectedRowData[0].filename
+  btnStatus.delete = false
 };
 </script>
 

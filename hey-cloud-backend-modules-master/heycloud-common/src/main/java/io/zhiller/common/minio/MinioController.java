@@ -129,4 +129,10 @@ public class MinioController {
     return AjaxResult.success(storage);
   }
 
+  @GetMapping("/delete")
+  public AjaxResult removeObject(@RequestParam String fileName) {
+    minioUtils.removeFile(minioProperties.getBucketName(), fileName);
+    return AjaxResult.success();
+  }
+
 }

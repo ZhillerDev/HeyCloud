@@ -1,8 +1,8 @@
 <template>
   <div class="storage-container">
-    <t-progress theme="line" :percentage="perc" :label="false" style="width: 150px;"/>
+    <t-progress theme="line" :percentage="fileStore.storage" :label="false" style="width: 150px;"/>
     <div style="color: #606266; font-size: small">
-      {{ fileStore.storage }}/100MB
+      {{ fileStore.storage.toFixed(2) }}MB/100MB
     </div>
   </div>
 </template>
@@ -11,7 +11,7 @@
 import {ref} from "vue";
 import {useFileStore} from "@/store/modules/file-store.js";
 
-const perc = ref(45)
+
 const fileStore = useFileStore()
 
 </script>

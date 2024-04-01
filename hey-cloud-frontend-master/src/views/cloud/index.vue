@@ -2,11 +2,13 @@
   <div class="cloud-container">
     <div class="cc-top">
       <t-button style="width: 80px;" :loading="btnStatus.refresh" @click="refreshBtn">刷新</t-button>
-      <t-button style="width: 80px;" :disabled="btnStatus.upload">上传文件</t-button>
+      <t-button style="width: 80px;" :disabled="btnStatus.upload" @click="uploadBtn">上传文件</t-button>
+      <t-button style="width: 80px; margin-left: 2px;" :disabled="btnStatus.delete">删除文件</t-button>
     </div>
 
     <div style="height: calc(100vh - var(--v3-navigationbar-height) - 70px); overflow: scroll">
       <t-table
+          :loading="formStatus.main"
           max-height="100%"
           row-key="index"
           :columns="columns"
@@ -30,42 +32,56 @@ import {getFileDetail, getFileList} from "@r/file.js";
 import {useUserStore} from "@/store/modules/user-store.js";
 import {getLocal} from "@/utils/token-utils.js";
 import {CacheKey} from "@/domain/constants/app-key.js";
-import {formatSize} from "@/utils/file-utils.js";
+import {formatFileSizeWithUnit, formatSize} from "@/utils/file-utils.js";
+import {useFileStore} from "@/store/modules/file-store.js";
+import {msgSuccess} from "@/utils/msg-utils.js";
+import {fileTypeImgs} from "@/utils/image-map-utils.js";
 
 const selectOnRowClick = ref(true);
 
 const userStore = useUserStore()
+const fileStore = useFileStore()
 
 // 按钮组状态
 const btnStatus = reactive({
   refresh: false,
-  upload: false
+  upload: false,
+  delete: true
+})
+// 表格加载状态
+const formStatus = reactive({
+  main: false
 })
 
 // 刷新按钮
 const refreshBtn = () => {
+  formStatus.main = true
   btnStatus.refresh = true
-  console.log(userStore.userInfo)
+  fileStore.showStorage(getLocal(CacheKey.Phone))
   getFileList({'userId': getLocal(CacheKey.Phone)})
       .then(e => {
         let datas = e.data
         let sum = 0;
         data.value = []
         for (let value in datas) {
-          console.log(datas[value])
           data.value.push({
             index: sum++,
             pic: ['贾明'],
             filename: datas[value]['fileName'],
-            filetype: datas[value]['fileType'],
-            filesize: formatSize(datas[value]['fileSize']),
+            filetype: datas[value]['fileExtension'],
+            filesize: formatFileSizeWithUnit(datas[value]['fileSize']),
           });
         }
-        console.log(data)
+        msgSuccess("获取数据成功")
       })
       .finally(() => {
         btnStatus.refresh = false
+        formStatus.main = false
       })
+}
+
+const uploadBtn = () => {
+  console.log(fileTypeImgs.get("jpg"))
 }
 
 const data = ref([]);
@@ -74,13 +90,15 @@ const data = ref([]);
 const columns = [
   {
     colKey: 'row-select',
-    type: 'multiple',
+    type: 'single',
     width: 50,
   },
   {
     colKey: 'pic', title: '', width: '100', cell: (h, {row}) => {
       return (
-          <t-image src={unknownImg} style="height: 32px; width:32px;"/>
+          <t-image src={
+            fileTypeImgs.get(row.filetype) !== undefined ? fileTypeImgs.get(row.filetype) : unknownImg
+          } style="height: 24px; width:24px;"/>
       );
     },
   },
@@ -95,10 +113,11 @@ const columns = [
 
 const activeRow = ref(false);
 const selectedRowKeys = ref([]);
+const selectedFileName = ref("")
 
-const rehandleSelectChange = (value, ctx) => {
+const rehandleSelectChange = (value, {selectedRowData}) => {
   selectedRowKeys.value = value;
-  console.log(value, ctx);
+  selectedFileName.value = selectedRowData[0].filename
 };
 </script>
 

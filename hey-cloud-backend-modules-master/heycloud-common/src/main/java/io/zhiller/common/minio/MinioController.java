@@ -123,4 +123,10 @@ public class MinioController {
     }
   }
 
+  @GetMapping("/storage")
+  public AjaxResult getAllStorage(@RequestParam String userId) {
+    Long storage = minioUtils.getUserFolderStorage(userId);
+    return AjaxResult.success(storage);
+  }
+
 }

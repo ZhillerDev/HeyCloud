@@ -22,6 +22,7 @@ export const fileTypeImgs = new Map([
   ['zip', parserUrl('/images/file/file_zip.png')],
   ['txt', parserUrl('/images/file/file_txt.png')],
   ['svg', parserUrl('/images/file/file_svg.png')],
+  // ['jpg', parserUrl('/images/file/file_unknown.png')],
   ['ppt', parserUrl('/images/file/file_ppt.svg')],
   ['pptx', parserUrl('/images/file/file_ppt.svg')],
   ['pdf', parserUrl('/images/file/file_pdf.png')],

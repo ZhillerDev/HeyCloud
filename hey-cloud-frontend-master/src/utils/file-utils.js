@@ -19,3 +19,28 @@ export const formatSize = (sizeInBits) => {
   } else {    // 大于等于1GB，以GB为单位    return `${(sizeInBits / GB).toFixed(2)} GB`;
   }
 }
+
+export const formatFileSizeWithUnit = (numBytes) => {
+  const UNITS = ['bit', 'Kb', 'Mb', 'Gb'];
+  const UNIT_CONVERSIONS = [1, 1 / 1024, 1 / (1024 * 1024), 1 / (1024 * 1024 * 1024)];
+
+  let unitIndex = 0;
+  let roundedValue = numBytes;
+
+  while (roundedValue >= 1024 && unitIndex < UNITS.length - 1) {
+    roundedValue /= 1024;
+    unitIndex++;
+  }
+
+  // 对最终值进行四舍五入
+  roundedValue = Math.min(roundedValue, 1024).toFixed(2); // 限制最大值为1024
+
+  return `${roundedValue} ${UNITS[unitIndex]}`;
+}
+
+export const convertBitToMb = (bitValue) => {
+  const BITS_PER_MB = 1024 * 1024; // 1 Mb = 8,000,000 bits
+
+  // 直接进行单位转换并返回结果
+  return bitValue / BITS_PER_MB;
+}

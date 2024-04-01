@@ -57,7 +57,7 @@ public class MinioUtils {
   }
 
   @SneakyThrows(Exception.class)
-  public void getUserFolderStorage(String userFolder) {
+  public Long getUserFolderStorage(String userFolder) {
     AtomicLong sum = new AtomicLong();
     ListObjectsArgs args = ListObjectsArgs.builder().bucket(minioProperties.getBucketName()).prefix(userFolder).recursive(true).build();
     minioClient.listObjects(args).forEach(e -> {
@@ -67,7 +67,7 @@ public class MinioUtils {
         exp.printStackTrace();
       }
     });
-    System.out.println(formatSize(sum.get()));
+    return sum.get();
   }
 
   private static String formatSize(long sizeInBits) {

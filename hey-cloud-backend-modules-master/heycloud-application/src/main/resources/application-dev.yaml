@@ -27,11 +27,6 @@ spring:
       max-file-size: 256MB
       max-request-size: 256MB
       enabled: true
-  # 配置ES
-  elasticsearch:
-    uris: http://localhost:9200
-    connection-timeout: 5s
-    socket-timeout: 10s
 
 fileoperator:
   bucket-name: upload
@@ -55,7 +50,6 @@ mybatis-plus:
     map-underscore-to-camel-case: false
   global-config:
     banner: false
-
 
 ############## Sa-Token 配置 (文档: https://sa-token.cc) ##############
 sa-token:

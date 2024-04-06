@@ -1,8 +1,11 @@
 package io.zhiller.basic.stream;
 
 import io.zhiller.fo.utils.GlobalUtils;
+import lombok.Data;
+import lombok.Getter;
 import org.apache.commons.io.FilenameUtils;
 
+@Data
 // 全局通用文件配置
 public class CloudFile {
   private final String path;
@@ -43,6 +46,7 @@ public class CloudFile {
     }
     return path.substring(0, index);
   }
+
   public CloudFile getParentFile() {
     String parentPath = this.getParent();
     return new CloudFile(parentPath, true);
@@ -55,16 +59,13 @@ public class CloudFile {
     }
     return path.substring(index + 1);
   }
+
   public String getExtendName() {
     return FilenameUtils.getExtension(getName());
   }
 
   public String getNameNotExtend() {
     return FilenameUtils.removeExtension(getName());
-  }
-
-  public String getPath() {
-    return path;
   }
 
   public boolean isDirectory() {

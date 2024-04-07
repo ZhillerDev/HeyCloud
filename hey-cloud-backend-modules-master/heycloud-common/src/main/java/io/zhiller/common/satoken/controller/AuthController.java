@@ -1,7 +1,6 @@
 package io.zhiller.common.satoken.controller;
 
 import cn.dev33.satoken.stp.SaLoginModel;
-import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.dev33.satoken.util.SaResult;
 import io.swagger.v3.oas.annotations.Operation;
@@ -11,7 +10,6 @@ import io.zhiller.common.minio.MinioUtils;
 import io.zhiller.domain.user.User;
 import io.zhiller.domain.user.dto.UserLoginDTO;
 import io.zhiller.domain.user.dto.UserRegisterDto;
-import io.zhiller.infrastructure.mapper.IUserMapper;
 import io.zhiller.infrastructure.service.IUserService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +20,7 @@ import java.util.List;
 @Tag(name = "用户鉴权", description = "用户登录鉴权与会话保持")
 @RestController
 @RequestMapping("/auth")
-public class UserController {
+public class AuthController {
 
   @Autowired
   private IUserService userService;

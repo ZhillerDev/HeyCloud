@@ -11,6 +11,6 @@ import javax.annotation.Resource;
 @Async("asyncTaskExecutor")
 public class AsyncTaskLogicDeal {
   @Resource
-  FileLoginDeal fileLoginDeal;
+  FileLogicDeal fileLogicDeal;
 
 }

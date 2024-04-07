@@ -6,5 +6,5 @@ import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
-public class FileLoginDeal {
+public class FileLogicDeal {
 }

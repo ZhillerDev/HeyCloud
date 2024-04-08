@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.zhiller.common.minio.MinioProperties;
 import io.zhiller.common.minio.MinioUtils;
+import io.zhiller.common.satoken.session.UserSession;
 import io.zhiller.domain.user.User;
 import io.zhiller.domain.user.dto.UserLoginDTO;
 import io.zhiller.domain.user.dto.UserRegisterDto;
@@ -24,6 +25,8 @@ public class AuthController {
 
   @Autowired
   private IUserService userService;
+  @Autowired
+  private UserSession userSession;
 
   @Autowired
   private MinioUtils minioUtils;
@@ -42,6 +45,10 @@ public class AuthController {
     if (loginDTO.isRemember())
       StpUtil.login(loginDTO.getUsername(), new SaLoginModel().setIsLastingCookie(true).setTimeout(2592000));
     else StpUtil.login(loginDTO.getUsername());
+
+    String token = StpUtil.getTokenSession().getToken();
+    userSession.setUserSession(user.getId(), token);
+    System.out.println(userSession.getUserIdBySession(token));
     return SaResult.data(user);
   }
 

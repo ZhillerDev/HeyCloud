@@ -7,8 +7,6 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.elasticsearch.annotations.Document;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 @Builder
 @Document(indexName = "file")
 public class FileSearch {

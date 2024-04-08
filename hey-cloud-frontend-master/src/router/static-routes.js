@@ -42,12 +42,62 @@ export const staticRoutes = [
         }
       },
       {
-        path: "files",
+        path: "file",
         component: () => import("@/views/cloud/index.vue"),
         name: "Files",
         meta: {
           title: "云盘主页",
           svgIcon: "files",
+          affix: true
+        }
+      },
+      {
+        path: "document",
+        component: () => import("@/views/cloud/document.vue"),
+        name: "Document",
+        meta: {
+          title: "文档分类",
+          svgIcon: "document",
+          affix: true
+        }
+      },
+      {
+        path: "pic",
+        component: () => import("@/views/cloud/pic.vue"),
+        name: "Pic",
+        meta: {
+          title: "图片分类",
+          svgIcon: "pic",
+          affix: true
+        }
+      },
+      {
+        path: "other",
+        component: () => import("@/views/cloud/other.vue"),
+        name: "Other",
+        meta: {
+          title: "其他文件分类",
+          svgIcon: "other",
+          affix: true
+        }
+      },
+      {
+        path: "recovery",
+        component: () => import("@/views/recovery/index.vue"),
+        name: "Recovery",
+        meta: {
+          title: "回收站",
+          svgIcon: "recovery",
+          affix: true
+        }
+      },
+      {
+        path: "share",
+        component: () => import("@/views/share/index.vue"),
+        name: "Share",
+        meta: {
+          title: "文件分享",
+          svgIcon: "Share",
           affix: true
         }
       }

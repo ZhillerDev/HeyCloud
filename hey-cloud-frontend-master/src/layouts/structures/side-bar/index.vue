@@ -25,25 +25,25 @@
           <template #title>
             <span>云盘空间</span>
           </template>
-          <t-menu-item value="files">
+          <t-menu-item value="file">
             <template #icon>
               <t-icon name="app"/>
             </template>
             全部文件
           </t-menu-item>
-          <t-menu-item value="files">
+          <t-menu-item value="document">
             <template #icon>
               <t-icon name="file"/>
             </template>
             文档
           </t-menu-item>
-          <t-menu-item value="files">
+          <t-menu-item value="pic">
             <template #icon>
               <t-icon name="image"/>
             </template>
             图片
           </t-menu-item>
-          <t-menu-item value="files">
+          <t-menu-item value="other">
             <template #icon>
               <t-icon name="round"/>
             </template>
